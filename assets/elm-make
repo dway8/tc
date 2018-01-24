@@ -1,0 +1,7 @@
+#/bin/bash
+# echo "Running elm-make with sysconfcpus -n 1"
+if ! type "sysconfcpus" > /dev/null; then
+  node_modules/.bin/elm-make-original "$@"
+else
+  sysconfcpus -n 1 node_modules/.bin/elm-make-original "$@"
+fi

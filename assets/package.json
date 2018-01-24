@@ -1,0 +1,34 @@
+{
+  "name": "tc",
+  "description": "TC",
+  "version": "0.0.1",
+  "author": "Diane Maniere",
+  "license": "ISC",
+  "scripts": {
+    "start": "webpack --watch-stdin --progress --color",
+    "build": "rimraf dist && webpack",
+    "elm:install": "elm-package install --yes",
+    "elm:reinstall": "rm -rf elm-stuff/; yarn elm:install",
+    "preinstall": "rm -rf node_modules/",
+    "postinstall": "yarn elm:install; mv node_modules/.bin/elm-make node_modules/.bin/elm-make-original; cp elm-make node_modules/.bin/",
+    "cleaninstall": "yarn add rimraf && rimraf node_modules elm-stuff && yarn install && yarn elm:install",
+    "reinstall": "npm i rimraf && rimraf node_modules && npm uninstall -g elm && npm i -g elm && npm i && elm package install"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "elm": "^0.18.0",
+    "elm-hot-loader": "^0.5.4",
+    "elm-webpack-loader": "^4.4.0",
+    "eslint": "^4.3.0",
+    "eslint_d": "^5.0.0",
+    "glob": "^5.0.14",
+    "html-webpack-plugin": "^2.17.0",
+    "prettier": "^1.5.3",
+    "rimraf": "^2.6.2",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-merge": "^4.1.1"
+  }
+}
