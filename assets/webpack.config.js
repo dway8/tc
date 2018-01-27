@@ -41,13 +41,13 @@ var commonConfig = {
         ],
     },
 
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "src/static/index.html",
-            inject: "body",
-            filename: "index.html",
-        }),
-    ],
+    // plugins: [
+    //     new HtmlWebpackPlugin({
+    //         template: "src/static/index.html",
+    //         inject: "body",
+    //         filename: "index.html",
+    //     }),
+    // ],
 };
 
 // additional webpack settings for local env (when invoked by 'npm start')

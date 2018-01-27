@@ -7,11 +7,31 @@ import GraphQL.Client.Http as GraphQLClient
 type Msg
     = NoOp
     | ReceiveQueryResponse (GraphQLData (List Recording))
+    | EditRecording Recording
+    | UpdateRecordingField Field String
+    | SaveRecording
+    | CancelEditing
+    | SaveRecordingResponse (GraphQLData Recording)
 
 
 type alias Model =
     { recordings : GraphQLData (List Recording)
+    , page : Page
+    , form : EditableData Recording
     }
+
+
+type EditableData a
+    = NotEditing
+    | Editing a
+    | EditSubmitting a
+    | EditRefused a
+    | EditSaved
+
+
+type Page
+    = ListPage
+    | EditPage Recording
 
 
 type alias GraphQLData a =
@@ -20,6 +40,11 @@ type alias GraphQLData a =
 
 type alias Recording =
     { id : String
-    , author : String
-    , description : String
+    , author : Maybe String
+    , description : Maybe String
     }
+
+
+type Field
+    = Author
+    | Description

@@ -13,7 +13,7 @@ defmodule AppWeb.Recording do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:author, :body])
-    |> validate_required([:description, :body])
+    |> cast(params, [:author, :description])
+    |> validate_required([:author, :description])
   end
 end

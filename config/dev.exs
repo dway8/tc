@@ -12,7 +12,7 @@ config :app, AppWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [npm: ["start",
-                    cd: Path.expand("../assets", __DIR__)]]
+                    cd: Path.expand("../assets/src", __DIR__)]]
 
 
 # Watch static and templates for browser reloading.

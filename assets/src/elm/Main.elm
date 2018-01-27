@@ -1,10 +1,10 @@
 module Main exposing (..)
 
 import Html exposing (Html)
-import Model exposing (Model, Msg)
+import Model exposing (Model, Msg, Page(..), EditableData(..))
 import Update exposing (update)
 import View exposing (view)
-import Requests exposing (sendRecordingsQuery)
+import Requests exposing (fetchRecordingsCmd)
 import RemoteData exposing (RemoteData(..))
 
 
@@ -20,12 +20,15 @@ main =
 
 initialModel : Model
 initialModel =
-    { recordings = NotAsked }
+    { recordings = NotAsked
+    , page = ListPage
+    , form = NotEditing
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, sendRecordingsQuery )
+    ( initialModel, fetchRecordingsCmd )
 
 
 subscriptions : Model -> Sub Msg
