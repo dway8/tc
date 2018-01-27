@@ -13,7 +13,7 @@ import Element.Input as Input
 view : Model -> Html Msg
 view model =
     viewport stylesheet <|
-        el Main [] <|
+        el Main [ padding 20, width <| percent 60, maxWidth <| px 900 ] <|
             case model.page of
                 ListPage ->
                     column None
@@ -45,8 +45,8 @@ viewRecording r =
     el None [] <|
         row None
             []
-            [ el None [] <| column None [] [ text (Maybe.withDefault "" r.author), text (Maybe.withDefault "" r.description) ]
-            , el None [] <| button None [ onClick <| EditRecording r ] <| text "Editer"
+            [ el None [ width <| fillPortion 4 ] <| column None [] [ text (Maybe.withDefault "" r.author), text (Maybe.withDefault "" r.description) ]
+            , el None [ width <| fillPortion 1 ] <| button Button [ alignRight, vary Primary True, onClick <| EditRecording r, padding 10 ] <| text "Editer"
             ]
 
 
@@ -54,17 +54,21 @@ editRecording : Recording -> Elem Msg
 editRecording r =
     el None [] <|
         column None
-            []
+            [ spacing 20 ]
             [ viewTextInput Author r.author "Auteur"
             , viewTextInput Description r.description "Description"
-            , button None [ onClick SaveRecording ] <| text "Enregistrer"
-            , button None [ onClick CancelEditing ] <| text "Annuler"
+            , el None [] <|
+                row None
+                    [ spacing 10 ]
+                    [ button Button [ vary Grey True, onClick CancelEditing, padding 10 ] <| text "Annuler"
+                    , button Button [ vary Primary True, onClick SaveRecording, padding 10 ] <| text "Enregistrer"
+                    ]
             ]
 
 
 viewTextInput : Field -> Maybe String -> String -> Elem Msg
 viewTextInput field val label =
-    Input.text None
+    Input.text Input
         [ padding 8
         , width fill
         ]

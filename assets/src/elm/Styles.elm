@@ -5,14 +5,16 @@ import Style.Font as Font
 import Style.Scale as Scale
 import Style.Border as Border
 import Element exposing (Element)
-import Style.Color as Color
-import Color exposing (grey)
+import Style.Color as SC
+import Color as Color
 
 
 type Styles
     = None
     | Main
     | Hairline
+    | Button
+    | Input
 
 
 type Variations
@@ -20,6 +22,8 @@ type Variations
     | Smaller
     | Smallest
     | Bold
+    | Primary
+    | Grey
 
 
 stylesheet : StyleSheet Styles Variations
@@ -39,9 +43,39 @@ stylesheet =
         , style Hairline
             [ Border.top 1
             , Border.solid
-            , Color.border grey
+            , SC.border Color.grey
+            ]
+        , style Button
+            [ variation Primary [ SC.background green, SC.text Color.white, hover [ SC.background darkGreen ] ]
+            , variation Grey [ SC.background grey, SC.text Color.white, hover [ SC.background darkGrey ] ]
+            ]
+        , style Input
+            [ Border.rounded 4
+            , Border.all 1
+            , Border.solid
+            , SC.border Color.grey
             ]
         ]
+
+
+darkGreen : Color.Color
+darkGreen =
+    Color.rgb 0 126 51
+
+
+green : Color.Color
+green =
+    Color.rgb 0 200 81
+
+
+darkGrey : Color.Color
+darkGrey =
+    Color.rgb 158 158 158
+
+
+grey : Color.Color
+grey =
+    Color.rgb 189 189 189
 
 
 scaled : Int -> Float
