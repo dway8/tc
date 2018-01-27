@@ -24,6 +24,7 @@ type Variations
     | Bold
     | Primary
     | Grey
+    | Danger
 
 
 stylesheet : StyleSheet Styles Variations
@@ -48,6 +49,7 @@ stylesheet =
         , style Button
             [ variation Primary [ SC.background green, SC.text Color.white, hover [ SC.background darkGreen ] ]
             , variation Grey [ SC.background grey, SC.text Color.white, hover [ SC.background darkGrey ] ]
+            , variation Danger [ SC.background red, SC.text Color.white, hover [ SC.background darkRed ] ]
             ]
         , style Input
             [ Border.rounded 4
@@ -76,6 +78,16 @@ darkGrey =
 grey : Color.Color
 grey =
     Color.rgb 189 189 189
+
+
+darkRed : Color.Color
+darkRed =
+    Color.rgb 204 0 0
+
+
+red : Color.Color
+red =
+    Color.rgb 255 68 68
 
 
 scaled : Int -> Float

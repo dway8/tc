@@ -1,7 +1,7 @@
 module Update exposing (..)
 
-import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData)
-import Requests exposing (saveRecordingCmd)
+import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId)
+import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
 import Utils exposing (emitMsg)
 
@@ -41,6 +41,28 @@ update msg model =
 
                 _ ->
                     model ! []
+
+        DeleteRecording id ->
+            model ! [ deleteRecordingCmd id ]
+
+        DeleteRecordingResponse response ->
+            case response of
+                Success id ->
+                    (model
+                        |> setRecordings (deleteFromRecordings id model.recordings)
+                    )
+                        ! []
+
+                _ ->
+                    model ! []
+
+
+deleteFromRecordings : RecordingId -> GraphQLData (List Recording) -> GraphQLData (List Recording)
+deleteFromRecordings id =
+    RemoteData.map
+        (\list ->
+            List.filter (\r -> r.id /= id) list
+        )
 
 
 setForm : EditableData Recording -> Model -> Model

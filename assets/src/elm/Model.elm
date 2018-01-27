@@ -12,6 +12,8 @@ type Msg
     | SaveRecording
     | CancelEditing
     | SaveRecordingResponse (GraphQLData Recording)
+    | DeleteRecording RecordingId
+    | DeleteRecordingResponse (GraphQLData RecordingId)
 
 
 type alias Model =
@@ -39,10 +41,14 @@ type alias GraphQLData a =
 
 
 type alias Recording =
-    { id : String
+    { id : RecordingId
     , author : Maybe String
     , description : Maybe String
     }
+
+
+type alias RecordingId =
+    String
 
 
 type Field

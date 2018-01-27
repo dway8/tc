@@ -46,7 +46,12 @@ viewRecording r =
         row None
             []
             [ el None [ width <| fillPortion 4 ] <| column None [] [ text (Maybe.withDefault "" r.author), text (Maybe.withDefault "" r.description) ]
-            , el None [ width <| fillPortion 1 ] <| button Button [ alignRight, vary Primary True, onClick <| EditRecording r, padding 10 ] <| text "Editer"
+            , el None [ width <| fillPortion 1 ] <|
+                row None
+                    [ spacing 10, alignRight ]
+                    [ button Button [ vary Primary True, onClick <| EditRecording r, padding 10 ] <| text "Editer"
+                    , button Button [ vary Danger True, onClick <| DeleteRecording r.id, padding 10 ] <| text "Supprimer"
+                    ]
             ]
 
 

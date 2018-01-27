@@ -5,7 +5,7 @@ import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..))
+import Model exposing (Msg(..), Recording, EditableData(..), RecordingId)
 import RemoteData
 
 
@@ -43,6 +43,12 @@ fetchRecordingsCmd =
         |> Task.attempt (RemoteData.fromResult >> ReceiveQueryResponse)
 
 
+deleteRecordingCmd : RecordingId -> Cmd Msg
+deleteRecordingCmd id =
+    sendMutationRequest (deleteRecordingMutation id)
+        |> Task.attempt (RemoteData.fromResult >> DeleteRecordingResponse)
+
+
 saveRecordingCmd : EditableData Recording -> Cmd Msg
 saveRecordingCmd form =
     case form of
@@ -52,6 +58,18 @@ saveRecordingCmd form =
 
         _ ->
             Cmd.none
+
+
+deleteRecordingMutation : RecordingId -> Request Mutation RecordingId
+deleteRecordingMutation id =
+    extract
+        (field "deleteRecording"
+            [ ( "id", Arg.variable <| Var.required "id" .id Var.int )
+            ]
+            (extract (field "id" [] string))
+        )
+        |> mutationDocument
+        |> request { id = recordingIdToInt id }
 
 
 saveRecordingMutation : Recording -> Request Mutation Recording
