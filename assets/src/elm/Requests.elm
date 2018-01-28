@@ -53,8 +53,15 @@ saveRecordingCmd : EditableData Recording -> Cmd Msg
 saveRecordingCmd form =
     case form of
         Editing r ->
-            sendMutationRequest (saveRecordingMutation r)
-                |> Task.attempt (RemoteData.fromResult >> SaveRecordingResponse)
+            let
+                mutation =
+                    if r.id == "NEW" then
+                        createRecordingMutation r
+                    else
+                        saveRecordingMutation r
+            in
+                sendMutationRequest mutation
+                    |> Task.attempt (RemoteData.fromResult >> SaveRecordingResponse)
 
         _ ->
             Cmd.none
@@ -70,6 +77,19 @@ deleteRecordingMutation id =
         )
         |> mutationDocument
         |> request { id = recordingIdToInt id }
+
+
+createRecordingMutation : Recording -> Request Mutation Recording
+createRecordingMutation r =
+    extract
+        (field "createRecording"
+            [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
+            , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
+            ]
+            (recordingSpec)
+        )
+        |> mutationDocument
+        |> request r
 
 
 saveRecordingMutation : Recording -> Request Mutation Recording

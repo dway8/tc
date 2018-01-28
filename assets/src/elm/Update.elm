@@ -1,9 +1,8 @@
 module Update exposing (..)
 
-import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId)
+import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording)
 import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
-import Utils exposing (emitMsg)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -55,6 +54,13 @@ update msg model =
 
                 _ ->
                     model ! []
+
+        OpenCreateView ->
+            (model
+                |> setForm (Editing newRecording)
+                |> setPage (EditPage newRecording)
+            )
+                ! []
 
 
 deleteFromRecordings : RecordingId -> GraphQLData (List Recording) -> GraphQLData (List Recording)

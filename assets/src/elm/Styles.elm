@@ -25,6 +25,7 @@ type Variations
     | Primary
     | Grey
     | Danger
+    | Info
 
 
 stylesheet : StyleSheet Styles Variations
@@ -50,6 +51,7 @@ stylesheet =
             [ variation Primary [ SC.background green, SC.text Color.white, hover [ SC.background darkGreen ] ]
             , variation Grey [ SC.background grey, SC.text Color.white, hover [ SC.background darkGrey ] ]
             , variation Danger [ SC.background red, SC.text Color.white, hover [ SC.background darkRed ] ]
+            , variation Info [ SC.background info, SC.text Color.white, hover [ SC.background darkInfo ] ]
             ]
         , style Input
             [ Border.rounded 4
@@ -58,6 +60,16 @@ stylesheet =
             , SC.border Color.grey
             ]
         ]
+
+
+darkInfo : Color.Color
+darkInfo =
+    Color.rgb 0 153 204
+
+
+info : Color.Color
+info =
+    Color.rgb 51 181 229
 
 
 darkGreen : Color.Color

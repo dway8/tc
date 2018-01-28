@@ -19,6 +19,7 @@ view model =
                     column None
                         [ spacing 20 ]
                         [ el None [ vary Bold True ] <| text "List"
+                        , button Button [ vary Info True, onClick OpenCreateView, padding 10 ] <| text "Ajouter nouveau"
                         , viewRecordings model.recordings
                         ]
 

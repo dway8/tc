@@ -14,6 +14,7 @@ type Msg
     | SaveRecordingResponse (GraphQLData Recording)
     | DeleteRecording RecordingId
     | DeleteRecordingResponse (GraphQLData RecordingId)
+    | OpenCreateView
 
 
 type alias Model =
@@ -44,6 +45,14 @@ type alias Recording =
     { id : RecordingId
     , author : Maybe String
     , description : Maybe String
+    }
+
+
+newRecording : Recording
+newRecording =
+    { id = "NEW"
+    , author = Nothing
+    , description = Nothing
     }
 
 
