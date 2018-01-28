@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..))
+import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList)
 import Html exposing (Html)
 import Element exposing (..)
 import Styles exposing (Styles(..), Variations(..), stylesheet, Elem)
@@ -63,6 +63,7 @@ editRecording r =
             [ spacing 20 ]
             [ viewTextInput Author r.author "Auteur"
             , viewTextInput Description r.description "Description"
+            , themeSelect r.theme
             , el None [] <|
                 row None
                     [ spacing 10 ]
@@ -70,6 +71,27 @@ editRecording r =
                     , button Button [ vary Primary True, onClick SaveRecording, padding 10 ] <| text "Enregistrer"
                     ]
             ]
+
+
+themeSelect : Input.SelectWith Theme Msg -> Elem Msg
+themeSelect theme =
+    el None [] <|
+        Input.select Input
+            [ height fill, padding 10 ]
+            { with = theme
+            , label = Input.labelAbove (el None [ verticalCenter, vary Bold True, paddingBottom 5 ] (text "Thème"))
+            , options = []
+            , max = 1
+            , menu =
+                Input.menu None
+                    []
+                    (themesList
+                        |> List.map
+                            (\t ->
+                                Input.choice t (text <| themeToString t)
+                            )
+                    )
+            }
 
 
 viewTextInput : Field -> Maybe String -> String -> Elem Msg

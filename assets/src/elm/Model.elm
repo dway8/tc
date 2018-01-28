@@ -2,6 +2,7 @@ module Model exposing (..)
 
 import RemoteData exposing (RemoteData)
 import GraphQL.Client.Http as GraphQLClient
+import Element.Input as Input
 
 
 type Msg
@@ -15,12 +16,13 @@ type Msg
     | DeleteRecording RecordingId
     | DeleteRecordingResponse (GraphQLData RecordingId)
     | OpenCreateView
+    | SelectTheme (Input.SelectMsg Theme)
 
 
 type alias Model =
     { recordings : GraphQLData (List Recording)
     , page : Page
-    , form : EditableData Recording
+    , form : EditableData RecordingForm
     }
 
 
@@ -30,6 +32,12 @@ type EditableData a
     | EditSubmitting a
     | EditRefused a
     | EditSaved
+
+
+type alias RecordingForm =
+    { recording : Recording
+    , theme : Input.SelectWith Theme Msg
+    }
 
 
 type Page
@@ -45,6 +53,7 @@ type alias Recording =
     { id : RecordingId
     , author : Maybe String
     , description : Maybe String
+    , theme : Theme
     }
 
 
@@ -53,6 +62,7 @@ newRecording =
     { id = "NEW"
     , author = Nothing
     , description = Nothing
+    , theme = NoTheme
     }
 
 
@@ -63,3 +73,20 @@ type alias RecordingId =
 type Field
     = Author
     | Description
+
+
+type Theme
+    = Nature
+    | History
+    | Culture
+    | NoTheme
+
+
+themeToString : Theme -> String
+themeToString theme =
+    toString theme
+
+
+themesList : List Theme
+themesList =
+    [ NoTheme, Nature, History, Culture ]

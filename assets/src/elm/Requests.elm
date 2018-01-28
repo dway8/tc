@@ -5,7 +5,7 @@ import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..), RecordingId)
+import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString)
 import RemoteData
 
 
@@ -24,13 +24,7 @@ fetchRecordingsQuery =
     extract
         (field "recordings"
             []
-            (list
-                (object Recording
-                    |> with (field "id" [] string)
-                    |> with (field "author" [] (nullable string))
-                    |> with (field "description" [] (nullable string))
-                )
-            )
+            (list recordingSpec)
         )
         |> queryDocument
         |> request
@@ -85,6 +79,7 @@ createRecordingMutation r =
         (field "createRecording"
             [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
             , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
+            , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
             ]
             (recordingSpec)
         )
@@ -101,6 +96,7 @@ saveRecordingMutation r =
               , Arg.object
                     [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
                     , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
+                    , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
                     ]
               )
             ]
@@ -121,3 +117,17 @@ recordingSpec =
         |> with (field "id" [] string)
         |> with (field "author" [] (nullable string))
         |> with (field "description" [] (nullable string))
+        |> with
+            (field "theme"
+                []
+                (extract (field "name" [] themeSpec))
+            )
+
+
+themeSpec : ValueSpec NonNull EnumType Theme vars
+themeSpec =
+    enumWithDefault (always NoTheme)
+        [ ( "Nature", Nature )
+        , ( "Histoire", History )
+        , ( "Culture", Culture )
+        ]

@@ -1,9 +1,11 @@
 defmodule AppWeb.Recording do
   use AppWeb, :model
+  alias AppWeb.Theme
 
   schema "recordings" do
     field :author, :string
     field :description, :string
+    belongs_to :theme, Theme
 
     timestamps()
   end

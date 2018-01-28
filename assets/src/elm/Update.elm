@@ -71,7 +71,7 @@ deleteFromRecordings id =
         )
 
 
-setForm : EditableData Recording -> Model -> Model
+setForm : EditableData RecordingForm -> Model -> Model
 setForm form model =
     { model | form = form }
 
@@ -89,13 +89,20 @@ setPage page model =
 updateForm : Field -> String -> EditableData Recording -> EditableData Recording
 updateForm field val form =
     case form of
-        Editing r ->
-            case field of
-                Author ->
-                    Editing { r | author = Just val }
+        Editing f ->
+            let
+                oldRec =
+                    f.recording
 
-                Description ->
-                    Editing { r | description = Just val }
+                newRec =
+                    case field of
+                        Author ->
+                            { oldRec | author = Just val }
+
+                        Description ->
+                            { oldRec | description = Just val }
+            in
+                Editing { f | recording = newRec }
 
         _ ->
             form

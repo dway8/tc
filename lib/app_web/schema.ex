@@ -11,6 +11,11 @@ defmodule AppWeb.Schema do
       arg :id, non_null(:id)
       resolve &AppWeb.RecordingResolver.find/2
     end
+
+    field :themes, list_of(:theme) do
+      resolve &AppWeb.ThemeResolver.all/2
+    end
+
   end
 
   input_object :update_post_params do
