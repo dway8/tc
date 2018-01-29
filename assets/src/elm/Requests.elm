@@ -5,7 +5,7 @@ import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString)
+import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm)
 import RemoteData
 
 
@@ -43,16 +43,16 @@ deleteRecordingCmd id =
         |> Task.attempt (RemoteData.fromResult >> DeleteRecordingResponse)
 
 
-saveRecordingCmd : EditableData Recording -> Cmd Msg
+saveRecordingCmd : EditableData RecordingForm -> Cmd Msg
 saveRecordingCmd form =
     case form of
-        Editing r ->
+        Editing f ->
             let
                 mutation =
-                    if r.id == "NEW" then
-                        createRecordingMutation r
+                    if f.recording.id == "NEW" then
+                        createRecordingMutation f.recording
                     else
-                        saveRecordingMutation r
+                        saveRecordingMutation f.recording
             in
                 sendMutationRequest mutation
                     |> Task.attempt (RemoteData.fromResult >> SaveRecordingResponse)

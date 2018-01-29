@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList)
+import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList, RecordingForm, EditableData(..))
 import Html exposing (Html)
 import Element exposing (..)
 import Styles exposing (Styles(..), Variations(..), stylesheet, Elem)
@@ -24,7 +24,7 @@ view model =
                         ]
 
                 EditPage r ->
-                    editRecording r
+                    editRecording model.form
 
 
 viewRecordings : GraphQLData (List Recording) -> Elem Msg
@@ -56,21 +56,26 @@ viewRecording r =
             ]
 
 
-editRecording : Recording -> Elem Msg
-editRecording r =
-    el None [] <|
-        column None
-            [ spacing 20 ]
-            [ viewTextInput Author r.author "Auteur"
-            , viewTextInput Description r.description "Description"
-            , themeSelect r.theme
-            , el None [] <|
-                row None
-                    [ spacing 10 ]
-                    [ button Button [ vary Grey True, onClick CancelEditing, padding 10 ] <| text "Annuler"
-                    , button Button [ vary Primary True, onClick SaveRecording, padding 10 ] <| text "Enregistrer"
+editRecording : EditableData RecordingForm -> Elem Msg
+editRecording form =
+    case form of
+        Editing f ->
+            el None [] <|
+                column None
+                    [ spacing 20 ]
+                    [ viewTextInput Author f.recording.author "Auteur"
+                    , viewTextInput Description f.recording.description "Description"
+                    , themeSelect f.theme
+                    , el None [] <|
+                        row None
+                            [ spacing 10 ]
+                            [ button Button [ vary Grey True, onClick CancelEditing, padding 10 ] <| text "Annuler"
+                            , button Button [ vary Primary True, onClick SaveRecording, padding 10 ] <| text "Enregistrer"
+                            ]
                     ]
-            ]
+
+        _ ->
+            empty
 
 
 themeSelect : Input.SelectWith Theme Msg -> Elem Msg

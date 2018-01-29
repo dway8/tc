@@ -1,8 +1,9 @@
 module Update exposing (..)
 
-import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording)
+import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording, RecordingForm, Theme(..))
 import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
+import Element.Input as Input
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -15,7 +16,7 @@ update msg model =
             { model | recordings = response } ! []
 
         EditRecording r ->
-            { model | page = EditPage r, form = Editing r } ! []
+            { model | page = EditPage r, form = initFormWithRecording r } ! []
 
         UpdateRecordingField field val ->
             (model
@@ -57,10 +58,28 @@ update msg model =
 
         OpenCreateView ->
             (model
-                |> setForm (Editing newRecording)
+                |> setForm (Editing <| RecordingForm newRecording (Input.dropMenu (Just NoTheme) SelectTheme))
                 |> setPage (EditPage newRecording)
             )
                 ! []
+
+        SelectTheme selectMsg ->
+            (model
+                |> setForm (updateTheme model.form selectMsg)
+            )
+                ! []
+
+
+updateTheme : EditableData RecordingForm -> Input.SelectMsg Theme -> EditableData RecordingForm
+updateTheme form selectMsg =
+    case form of
+        Editing f ->
+            f
+                |> (\f -> { f | theme = Input.updateSelection selectMsg f.theme })
+                |> Editing
+
+        _ ->
+            form
 
 
 deleteFromRecordings : RecordingId -> GraphQLData (List Recording) -> GraphQLData (List Recording)
@@ -86,7 +105,12 @@ setPage page model =
     { model | page = page }
 
 
-updateForm : Field -> String -> EditableData Recording -> EditableData Recording
+initFormWithRecording : Recording -> EditableData RecordingForm
+initFormWithRecording rec =
+    Editing <| RecordingForm rec (Input.dropMenu (Just rec.theme) SelectTheme)
+
+
+updateForm : Field -> String -> EditableData RecordingForm -> EditableData RecordingForm
 updateForm field val form =
     case form of
         Editing f ->
