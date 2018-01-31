@@ -20,7 +20,7 @@ Repo.insert!(%Theme{
 })
 
 Repo.insert!(%Theme{
-    name: "Histoire"
+    name: "History"
 })
 
 Repo.insert!(%Theme{

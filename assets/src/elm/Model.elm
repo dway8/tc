@@ -84,7 +84,18 @@ type Theme
 
 themeToString : Theme -> String
 themeToString theme =
-    toString theme
+    case theme of
+        NoTheme ->
+            "Aucun"
+
+        Nature ->
+            "Nature"
+
+        History ->
+            "Histoire"
+
+        Culture ->
+            "Culture"
 
 
 themesList : List Theme

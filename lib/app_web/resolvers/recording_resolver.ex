@@ -1,6 +1,7 @@
 defmodule AppWeb.RecordingResolver do
   alias App.Repo
   alias AppWeb.Recording
+  alias AppWeb.Theme
 
   def all(_args, _info) do
     {:ok, Repo.all(Recording)}
@@ -20,8 +21,10 @@ defmodule AppWeb.RecordingResolver do
   end
 
   def update(%{id: id, recording: post_params}, _info) do
+    theme = Repo.get_by!(Theme, name: post_params[:theme])
+    params = Map.put(post_params, :theme_id, theme.id)
     Repo.get!(Recording, id)
-    |> Recording.changeset(post_params)
+    |> Recording.changeset(params)
     |> Repo.update
   end
 

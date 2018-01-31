@@ -79,7 +79,7 @@ createRecordingMutation r =
         (field "createRecording"
             [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
             , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
-            , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
+            , ( "theme", Arg.variable <| Var.required "theme" (.theme >> toString) Var.string )
             ]
             (recordingSpec)
         )

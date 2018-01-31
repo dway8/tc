@@ -21,6 +21,7 @@ defmodule AppWeb.Schema do
   input_object :update_post_params do
     field :author, non_null(:string)
     field :description, non_null(:string)
+    field :theme, non_null(:string)
   end
 
   mutation do
