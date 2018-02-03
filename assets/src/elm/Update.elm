@@ -76,10 +76,16 @@ updateTheme form selectMsg =
         Editing f ->
             f
                 |> (\f -> { f | theme = Input.updateSelection selectMsg f.theme })
+                |> (\f -> { f | recording = setRecordingTheme f.theme f.recording })
                 |> Editing
 
         _ ->
             form
+
+
+setRecordingTheme : Input.SelectWith Theme Msg -> Recording -> Recording
+setRecordingTheme theme recording =
+    { recording | theme = Input.selected theme |> Maybe.withDefault NoTheme }
 
 
 deleteFromRecordings : RecordingId -> GraphQLData (List Recording) -> GraphQLData (List Recording)
