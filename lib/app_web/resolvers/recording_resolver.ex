@@ -15,6 +15,8 @@ defmodule AppWeb.RecordingResolver do
   end
 
   def create(args, _info) do
+    theme = Repo.get_by!(Theme, name: args[:theme])
+    args = Map.put(args, :theme_id, theme.id)
     %Recording{}
     |> Recording.changeset(args)
     |> Repo.insert

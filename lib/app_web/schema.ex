@@ -28,6 +28,7 @@ defmodule AppWeb.Schema do
     field :create_recording, type: :recording do
       arg :author, non_null(:string)
       arg :description, non_null(:string)
+      arg :theme, non_null(:string)
 
       resolve &AppWeb.RecordingResolver.create/2
     end
