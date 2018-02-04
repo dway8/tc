@@ -27,10 +27,15 @@ Repo.insert!(%Theme{
     name: "Culture"
 })
 
+
 for _ <- 1..10 do
   Repo.insert!(%Recording{
     author: Faker.Name.name,
     description: Faker.Lorem.sentence,
-    theme_id: Enum.random(1..3)
+    theme_id: Enum.random(1..3),
+    address: "10 rue Fernand Rey",
+    search_address: "10 rue Fernand Rey, Lyon",
+    city: "Lyon",
+    coordinates: %Geo.Point{coordinates: {4.829236, 45.769113}, srid: 4326}
   })
 end

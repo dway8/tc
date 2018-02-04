@@ -40,4 +40,5 @@ config :app, App.Repo,
   password: "postgres",
   database: "app_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  types: App.PostgresTypes

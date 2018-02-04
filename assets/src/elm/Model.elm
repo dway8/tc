@@ -54,7 +54,15 @@ type alias Recording =
     , author : Maybe String
     , description : Maybe String
     , theme : Theme
+    , coordinates : Coordinates
+    , searchAddress : Maybe String
+    , address : Maybe String
+    , city : Maybe String
     }
+
+
+type alias Coordinates =
+    { lat : Float, lng : Float }
 
 
 newRecording : Recording
@@ -63,6 +71,10 @@ newRecording =
     , author = Nothing
     , description = Nothing
     , theme = NoTheme
+    , coordinates = { lat = 0, lng = 0 }
+    , searchAddress = Nothing
+    , address = Nothing
+    , city = Nothing
     }
 
 
@@ -73,6 +85,7 @@ type alias RecordingId =
 type Field
     = Author
     | Description
+    | SearchAddress
 
 
 type Theme
@@ -101,3 +114,8 @@ themeToString theme =
 themesList : List Theme
 themesList =
     [ NoTheme, Nature, History, Culture ]
+
+
+addressInputId : String
+addressInputId =
+    "address-input"

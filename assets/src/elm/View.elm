@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList, RecordingForm, EditableData(..))
+import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList, RecordingForm, EditableData(..), addressInputId)
 import Html exposing (Html)
 import Element exposing (..)
 import Styles exposing (Styles(..), Variations(..), stylesheet, Elem)
@@ -65,6 +65,7 @@ editRecording form =
                     [ spacing 20 ]
                     [ viewTextInput Author f.recording.author "Auteur"
                     , viewTextInput Description f.recording.description "Description"
+                    , searchAddressInput f.recording
                     , themeSelect f.theme
                     , el None [] <|
                         row None
@@ -76,6 +77,26 @@ editRecording form =
 
         _ ->
             empty
+
+
+searchAddressInput : Recording -> Elem Msg
+searchAddressInput recording =
+    el None [] <|
+        Input.text Input
+            [ padding 8
+            , width fill
+            , id addressInputId
+            ]
+            { onChange = always NoOp
+            , value = Maybe.withDefault "" recording.address
+            , options =
+                []
+            , label =
+                Input.placeholder
+                    { label = Input.hiddenLabel ""
+                    , text = "Commencez à écrire pour rechercher"
+                    }
+            }
 
 
 themeSelect : Input.SelectWith Theme Msg -> Elem Msg

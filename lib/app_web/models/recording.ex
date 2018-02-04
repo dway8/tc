@@ -6,6 +6,10 @@ defmodule AppWeb.Recording do
     field :author, :string
     field :description, :string
     belongs_to :theme, Theme
+    field :coordinates, Geo.Point
+    field :search_address, :string
+    field :address, :string
+    field :city, :string
 
     timestamps()
   end
@@ -15,7 +19,7 @@ defmodule AppWeb.Recording do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:author, :description, :theme_id])
+    |> cast(params, [:author, :description, :theme_id, :search_address, :address, :city])
     |> validate_required([:author, :description])
   end
 end

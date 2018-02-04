@@ -1,9 +1,10 @@
 module Update exposing (..)
 
-import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording, RecordingForm, Theme(..))
+import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording, RecordingForm, Theme(..), addressInputId)
 import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
 import Element.Input as Input
+import Ports exposing (InfoForOutside(..))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -16,7 +17,7 @@ update msg model =
             { model | recordings = response } ! []
 
         EditRecording r ->
-            { model | page = EditPage r, form = initFormWithRecording r } ! []
+            { model | page = EditPage r, form = initFormWithRecording r } ! [ Ports.sendInfoOutside <| InitSearch addressInputId ]
 
         UpdateRecordingField field val ->
             (model
@@ -131,6 +132,9 @@ updateForm field val form =
 
                         Description ->
                             { oldRec | description = Just val }
+
+                        SearchAddress ->
+                            { oldRec | searchAddress = Just val }
             in
                 Editing { f | recording = newRec }
 

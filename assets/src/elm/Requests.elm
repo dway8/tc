@@ -5,7 +5,7 @@ import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm)
+import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm, Coordinates)
 import RemoteData
 
 
@@ -122,6 +122,17 @@ recordingSpec =
                 []
                 (extract (field "name" [] themeSpec))
             )
+        |> with
+            (field "coordinates"
+                []
+                (object Coordinates
+                    |> with (field "lat" [] float)
+                    |> with (field "lng" [] float)
+                )
+            )
+        |> with (field "searchAddress" [] (nullable string))
+        |> with (field "address" [] (nullable string))
+        |> with (field "city" [] (nullable string))
 
 
 themeSpec : ValueSpec NonNull EnumType Theme vars
