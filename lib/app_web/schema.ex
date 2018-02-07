@@ -22,7 +22,13 @@ defmodule AppWeb.Schema do
     field :author, non_null(:string)
     field :description, non_null(:string)
     field :theme, non_null(:string)
+    field :search_address, non_null(:string)
+    field :address, non_null(:string)
+    field :city, non_null(:string)
+    field :coordinates, non_null(:coordinates)
   end
+
+
 
   mutation do
     field :create_recording, type: :recording do

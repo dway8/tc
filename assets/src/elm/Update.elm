@@ -4,7 +4,7 @@ import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Fi
 import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
 import Element.Input as Input
-import Ports exposing (InfoForOutside(..))
+import Ports exposing (InfoForOutside(..), InfoForElm(..), PlaceSelectedData)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -69,6 +69,43 @@ update msg model =
                 |> setForm (updateTheme model.form selectMsg)
             )
                 ! []
+
+        InfoFromOutside infoForElm ->
+            case infoForElm of
+                PlaceSelected data ->
+                    (model
+                        |> setForm (updateFormAddressFields data model.form)
+                    )
+                        ! []
+
+        LogError error ->
+            let
+                debug =
+                    Debug.log "error:" error
+            in
+                model ! []
+
+
+updateFormAddressFields : PlaceSelectedData -> EditableData RecordingForm -> EditableData RecordingForm
+updateFormAddressFields data form =
+    case form of
+        Editing f ->
+            f
+                |> (\f -> { f | recording = setRecordingAddress data f.recording })
+                |> Editing
+
+        _ ->
+            form
+
+
+setRecordingAddress : PlaceSelectedData -> Recording -> Recording
+setRecordingAddress data rec =
+    { rec
+        | city = Just data.city
+        , searchAddress = Just data.searchAddress
+        , address = Just data.address
+        , coordinates = { lat = data.coordinates.lat, lng = data.coordinates.lng }
+    }
 
 
 updateTheme : EditableData RecordingForm -> Input.SelectMsg Theme -> EditableData RecordingForm

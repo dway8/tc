@@ -8,3 +8,7 @@ emitMsg msg =
     msg
         |> Task.succeed
         |> Task.perform identity
+
+
+type alias Coordinates =
+    { lat : Float, lng : Float }

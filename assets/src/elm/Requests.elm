@@ -5,7 +5,8 @@ import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm, Coordinates)
+import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm)
+import Utils exposing (Coordinates)
 import RemoteData
 
 
@@ -77,10 +78,7 @@ createRecordingMutation : Recording -> Request Mutation Recording
 createRecordingMutation r =
     extract
         (field "createRecording"
-            [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
-            , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
-            , ( "theme", Arg.variable <| Var.required "theme" (.theme >> toString) Var.string )
-            ]
+            recordingArgs
             (recordingSpec)
         )
         |> mutationDocument
@@ -93,17 +91,34 @@ saveRecordingMutation r =
         (field "updateRecording"
             [ ( "id", Arg.variable <| Var.required "id" (.id >> recordingIdToInt) Var.int )
             , ( "recording"
-              , Arg.object
-                    [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
-                    , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
-                    , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
-                    ]
+              , Arg.object recordingArgs
               )
             ]
             (recordingSpec)
         )
         |> mutationDocument
         |> request r
+
+
+recordingArgs : List ( String, Arg.Value Recording )
+recordingArgs =
+    [ ( "author", Arg.variable <| Var.required "author" (.author >> Maybe.withDefault "") Var.string )
+    , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
+    , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
+    , ( "coordinates"
+      , Arg.variable <|
+            Var.required "coordinates"
+                .coordinates
+                (Var.object "coordinates"
+                    [ Var.field "lat" .lat Var.float
+                    , Var.field "lng" .lng Var.float
+                    ]
+                )
+      )
+    , ( "searchAddress", Arg.variable <| Var.required "searchAddress" (.searchAddress >> Maybe.withDefault "") Var.string )
+    , ( "address", Arg.variable <| Var.required "address" (.address >> Maybe.withDefault "") Var.string )
+    , ( "city", Arg.variable <| Var.required "city" (.city >> Maybe.withDefault "") Var.string )
+    ]
 
 
 recordingIdToInt : String -> Int

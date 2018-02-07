@@ -87,7 +87,7 @@ searchAddressInput recording =
             , width fill
             , id addressInputId
             ]
-            { onChange = always NoOp
+            { onChange = UpdateRecordingField SearchAddress
             , value = Maybe.withDefault "" recording.address
             , options =
                 []

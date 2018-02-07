@@ -3,6 +3,8 @@ module Model exposing (..)
 import RemoteData exposing (RemoteData)
 import GraphQL.Client.Http as GraphQLClient
 import Element.Input as Input
+import Ports exposing (InfoForElm)
+import Utils exposing (Coordinates)
 
 
 type Msg
@@ -17,6 +19,8 @@ type Msg
     | DeleteRecordingResponse (GraphQLData RecordingId)
     | OpenCreateView
     | SelectTheme (Input.SelectMsg Theme)
+    | InfoFromOutside InfoForElm
+    | LogError String
 
 
 type alias Model =
@@ -59,10 +63,6 @@ type alias Recording =
     , address : Maybe String
     , city : Maybe String
     }
-
-
-type alias Coordinates =
-    { lat : Float, lng : Float }
 
 
 newRecording : Recording

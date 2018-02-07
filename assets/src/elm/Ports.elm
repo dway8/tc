@@ -3,7 +3,7 @@ port module Ports exposing (..)
 import Json.Decode as D
 import Json.Encode as E
 import Json.Decode.Pipeline as P
-import Model exposing (Coordinates)
+import Utils exposing (Coordinates)
 
 
 type alias GenericOutsideData =
@@ -52,7 +52,8 @@ getInfoFromOutside tagger onError =
 
 
 type alias PlaceSelectedData =
-    { address : String
+    { searchAddress : String
+    , address : String
     , city : String
     , coordinates : Coordinates
     }
@@ -61,6 +62,7 @@ type alias PlaceSelectedData =
 placeSelectedDecoder : D.Decoder PlaceSelectedData
 placeSelectedDecoder =
     P.decode PlaceSelectedData
+        |> P.required "searchAddress" D.string
         |> P.required "address" D.string
         |> P.required "city" D.string
         |> P.required "coordinates" coordinatesDecoder

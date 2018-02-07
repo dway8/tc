@@ -1,11 +1,12 @@
 module Main exposing (..)
 
 import Html exposing (Html)
-import Model exposing (Model, Msg, Page(..), EditableData(..))
+import Model exposing (Model, Msg(..), Page(..), EditableData(..))
 import Update exposing (update)
 import View exposing (view)
 import Requests exposing (fetchRecordingsCmd)
 import RemoteData exposing (RemoteData(..))
+import Ports
 
 
 main : Program Never Model Msg
@@ -33,4 +34,4 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Sub.batch [ Ports.getInfoFromOutside InfoFromOutside LogError ]
