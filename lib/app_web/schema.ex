@@ -25,10 +25,13 @@ defmodule AppWeb.Schema do
     field :search_address, non_null(:string)
     field :address, non_null(:string)
     field :city, non_null(:string)
-    field :coordinates, non_null(:coordinates)
+    field :coordinates, non_null(:input_coordinates)
   end
 
-
+  object :input_coordinates do
+    field :lat, :float
+    field :lng, :float
+  end
 
   mutation do
     field :create_recording, type: :recording do

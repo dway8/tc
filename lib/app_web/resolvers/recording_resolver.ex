@@ -22,13 +22,20 @@ defmodule AppWeb.RecordingResolver do
     |> Repo.insert
   end
 
+
   def update(%{id: id, recording: post_params}, _info) do
     theme = Repo.get_by!(Theme, name: post_params[:theme])
-    params = Map.put(post_params, :theme_id, theme.id)
+    params =
+      post_params
+      |> Map.put(:theme_id, theme.id)
+      |> Map.update!(:coordinates, fn(c) ->  %Geo.Point{ coordinates: {c.lat, c.lng}, srid: 4326} end)
+
     Repo.get!(Recording, id)
     |> Recording.changeset(params)
     |> Repo.update
   end
+
+
 
   def delete(%{id: id}, _info) do
     recording = Repo.get!(Recording, id)

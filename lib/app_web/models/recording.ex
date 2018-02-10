@@ -19,7 +19,7 @@ defmodule AppWeb.Recording do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:author, :description, :theme_id, :search_address, :address, :city])
+    |> cast(params, [:author, :description, :theme_id, :search_address, :address, :city, :coordinates])
     |> validate_required([:author, :description])
   end
 end

@@ -106,14 +106,10 @@ recordingArgs =
     , ( "description", Arg.variable <| Var.required "description" (.description >> Maybe.withDefault "") Var.string )
     , ( "theme", Arg.variable <| Var.required "theme" (.theme >> themeToString) Var.string )
     , ( "coordinates"
-      , Arg.variable <|
-            Var.required "coordinates"
-                .coordinates
-                (Var.object "coordinates"
-                    [ Var.field "lat" .lat Var.float
-                    , Var.field "lng" .lng Var.float
-                    ]
-                )
+      , Arg.object
+            [ ( "lat", Arg.variable <| Var.required "lat" (.coordinates >> .lat) Var.float )
+            , ( "lng", Arg.variable <| Var.required "lng" (.coordinates >> .lng) Var.float )
+            ]
       )
     , ( "searchAddress", Arg.variable <| Var.required "searchAddress" (.searchAddress >> Maybe.withDefault "") Var.string )
     , ( "address", Arg.variable <| Var.required "address" (.address >> Maybe.withDefault "") Var.string )

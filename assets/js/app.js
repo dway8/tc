@@ -37,11 +37,7 @@ function initSearch(container, callback) {
     if (!container) {
         return;
     }
-    var options = {
-        componentRestrictions: {
-            country: "fr",
-        },
-    };
+    var options = {};
 
     options.types = ["address"];
 
