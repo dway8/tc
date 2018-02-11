@@ -5,8 +5,8 @@
   "author": "Diane Maniere",
   "license": "ISC",
   "scripts": {
-    "start": "webpack --watch-stdin --progress --color",
-    "build": "rimraf dist && webpack",
+    "start": "webpack --watch-stdin --progress --color --env.appName all",
+    "build": "rimraf dist && webpack --env.appName all",
     "elm:install": "elm-package install --yes",
     "elm:reinstall": "rm -rf elm-stuff/; yarn elm:install",
     "preinstall": "rm -rf node_modules/",

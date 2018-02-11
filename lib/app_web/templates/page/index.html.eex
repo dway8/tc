@@ -21,7 +21,10 @@
 <% else %>
 
   <h1>Hello <%= @maybe_user.email%>!</h1>
+  <div id="main"></div>
   <span><%= link "Logout", to: page_path(@conn, :logout), method: :post %></span>
+
+  <script src="<%= static_path(@conn, "/js/apppublic.js") %>"></script>
 
 <% end %>
 

@@ -29,6 +29,7 @@ erl_crash.dump
 /assets/yarn.lock
 /assets/package-lock.json
 *.DS_Store
+/assets/src/npm-debug.log*
 /assets/npm-debug.log*
 
 #RethinkDB
