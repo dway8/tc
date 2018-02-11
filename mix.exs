@@ -35,7 +35,7 @@ defmodule App.Mixfile do
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix_html, "~> 2.10"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
@@ -44,7 +44,10 @@ defmodule App.Mixfile do
      {:poison, "~> 3.0"},
      {:absinthe_ecto, "~> 0.1"},
      {:faker, "~> 0.8"},
-     {:geo, "~> 1.3"}]
+     {:geo, "~> 1.3"},
+     {:guardian, "~> 1.0"},
+     {:comeonin, "~> 4.0"},
+     {:bcrypt_elixir, "~> 1.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

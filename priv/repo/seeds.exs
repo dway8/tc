@@ -13,6 +13,7 @@
 
 alias AppWeb.Recording
 alias AppWeb.Theme
+alias AppWeb.User
 alias App.Repo
 
 Repo.insert!(%Theme{
@@ -39,3 +40,12 @@ for _ <- 1..10 do
     coordinates: %Geo.Point{coordinates: {4.829236, 45.769113}, srid: 4326}
   })
 end
+
+admin_params = %{email: "diane", password: "admin"}
+
+unless Repo.get_by(User, email: admin_params[:email]) do
+  %User{}
+  |> User.registration_changeset(admin_params)
+  |> Repo.insert!
+end
+

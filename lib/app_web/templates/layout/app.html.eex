@@ -53,21 +53,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHvBQPHbgpiqAE9fTsoljS0CP-0M80y6s&libraries=places"></script>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script>
-      // ServiceWorker is a progressive technology. Ignore unsupported browsers
-      if ("serviceWorker" in navigator) {
-          console.log("CLIENT: service worker registration in progress.");
-          navigator.serviceWorker.register("sw.js").then(
-              function() {
-                  console.log("CLIENT: service worker registration complete.");
-              },
-              function() {
-                  console.log("CLIENT: service worker registration failure.");
-              }
-          );
-      } else {
-          console.log("CLIENT: service worker is not supported.");
-      }
-    </script>
-  </body>
+    </body>
 </html>

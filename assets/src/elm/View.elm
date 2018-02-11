@@ -88,7 +88,7 @@ searchAddressInput recording =
             , id addressInputId
             ]
             { onChange = UpdateRecordingField SearchAddress
-            , value = Maybe.withDefault "" recording.address
+            , value = Maybe.withDefault "" recording.searchAddress
             , options =
                 []
             , label =
