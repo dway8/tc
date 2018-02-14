@@ -26,7 +26,8 @@ defmodule AppWeb.Router do
     pipe_through([:browser, :auth])
 
     get("/", PageController, :index)
-    post("/", PageController, :login)
+    get("/login", PageController, :login)
+    post("/login", PageController, :login_user)
     post("/logout", PageController, :logout)
   end
 

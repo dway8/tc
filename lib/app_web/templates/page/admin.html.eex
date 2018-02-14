@@ -1,3 +1,5 @@
 <div id="main-admin"></div>
 
+<span><%= link "Logout", to: page_path(@conn, :logout), method: :post %></span>
+
 <script src="<%= static_path(@conn, "/js/appadmin.js") %>"></script>

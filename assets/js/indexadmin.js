@@ -1,3 +1,6 @@
+import "phoenix_html";
+import { Socket } from "phoenix";
+
 const Elm = require("../src/elm/MainAdmin");
 var main = document.getElementById("main-admin");
 if (!main) {

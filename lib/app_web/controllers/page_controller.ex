@@ -10,27 +10,22 @@ defmodule AppWeb.PageController do
   alias AppWeb.Auth.Guardian
 
   def index(conn, _params) do
-    changeset = Auth.change_user(%User{})
-    maybe_user = Guardian.Plug.current_resource(conn)
+    conn
+    |> render("index.html")
+  end
 
-    message =
-      if maybe_user != nil do
-        "Someone is logged in"
-      else
-        "No one is logged in"
-      end
+  def login(conn, _params) do
+    changeset = Auth.change_user(%User{})
 
     conn
-    |> put_flash(:info, message)
     |> render(
-      "index.html",
+      "login.html",
       changeset: changeset,
-      action: page_path(conn, :login),
-      maybe_user: maybe_user
+      action: page_path(conn, :login_user)
     )
   end
 
-  def login(conn, %{"user" => %{"email" => email, "password" => password}}) do
+  def login_user(conn, %{"user" => %{"email" => email, "password" => password}}) do
     Auth.authenticate_user(email, password)
     |> login_reply(conn)
   end
@@ -38,7 +33,7 @@ defmodule AppWeb.PageController do
   defp login_reply({:error, error}, conn) do
     conn
     |> put_flash(:error, error)
-    |> redirect(to: "/")
+    |> redirect(to: "/login")
   end
 
   defp login_reply({:ok, user}, conn) do
@@ -51,7 +46,7 @@ defmodule AppWeb.PageController do
   def logout(conn, _) do
     conn
     |> Guardian.Plug.sign_out()
-    |> redirect(to: page_path(conn, :login))
+    |> redirect(to: page_path(conn, :index))
   end
 
   def admin(conn, _params) do
