@@ -4,8 +4,8 @@ defmodule AppWeb.User do
   alias Comeonin.Bcrypt
 
   schema "users" do
-    field :email, :string
-    field :password, :string
+    field(:email, :string)
+    field(:password, :string)
 
     timestamps()
   end
@@ -29,5 +29,4 @@ defmodule AppWeb.User do
   end
 
   defp put_pass_hash(changeset), do: changeset
-
 end

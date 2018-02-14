@@ -11,9 +11,7 @@ config :app, AppWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [npm: ["start",
-                    cd: Path.expand("../assets/src", __DIR__)]]
-
+  watchers: [npm: ["start", cd: Path.expand("../assets/src", __DIR__)]]
 
 # Watch static and templates for browser reloading.
 config :app, AppWeb.Endpoint,

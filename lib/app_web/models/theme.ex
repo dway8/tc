@@ -3,8 +3,8 @@ defmodule AppWeb.Theme do
   alias AppWeb.Recording
 
   schema "themes" do
-    field :name, :string
-    has_many :recordings, Recording
+    field(:name, :string)
+    has_many(:recordings, Recording)
 
     timestamps()
   end

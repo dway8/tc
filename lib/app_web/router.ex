@@ -2,46 +2,44 @@ defmodule AppWeb.Router do
   use AppWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   pipeline :auth do
-    plug AppWeb.Auth.Pipeline
+    plug(AppWeb.Auth.Pipeline)
   end
 
   pipeline :ensure_auth do
-    plug Guardian.Plug.EnsureAuthenticated
+    plug(Guardian.Plug.EnsureAuthenticated)
   end
 
   # Maybe logged in scope
   scope "/", AppWeb do
-    pipe_through [:browser, :auth]
+    pipe_through([:browser, :auth])
 
-    get "/", PageController, :index
-    post "/", PageController, :login
-    post "/logout", PageController, :logout
+    get("/", PageController, :index)
+    post("/", PageController, :login)
+    post("/logout", PageController, :logout)
   end
 
   # Definitely logged in scope
   scope "/", AppWeb do
-    pipe_through [:browser, :auth, :ensure_auth]
+    pipe_through([:browser, :auth, :ensure_auth])
 
-    get "/admin", PageController, :admin
+    get("/admin", PageController, :admin)
   end
 
-  forward "/api", Absinthe.Plug,
-    schema: AppWeb.Schema
+  forward("/api", Absinthe.Plug, schema: AppWeb.Schema)
 
-  forward "/graphiql", Absinthe.Plug.GraphiQL,
-    schema: AppWeb.Schema
+  forward("/graphiql", Absinthe.Plug.GraphiQL, schema: AppWeb.Schema)
 
   # Other scopes may use custom stacks.
   # scope "/api", App do

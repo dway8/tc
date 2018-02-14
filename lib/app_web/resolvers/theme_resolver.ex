@@ -16,19 +16,17 @@ defmodule AppWeb.ThemeResolver do
   def create(args, _info) do
     %Theme{}
     |> Theme.changeset(args)
-    |> Repo.insert
+    |> Repo.insert()
   end
 
   def update(%{id: id, theme: post_params}, _info) do
     Repo.get!(Theme, id)
     |> Recording.changeset(post_params)
-    |> Repo.update
+    |> Repo.update()
   end
 
   def delete(%{id: id}, _info) do
     theme = Repo.get!(Theme, id)
     Repo.delete(theme)
   end
-
 end
-

@@ -1,12 +1,12 @@
 defmodule AppWeb.Auth do
-
   import Ecto.Query, warn: false
   alias App.Repo
   alias AppWeb.User
   alias Comeonin.Bcrypt
 
   def authenticate_user(email, plain_text_password) do
-    query = from u in User, where: u.email == ^email
+    query = from(u in User, where: u.email == ^email)
+
     Repo.one(query)
     |> check_password(plain_text_password)
   end
@@ -14,7 +14,7 @@ defmodule AppWeb.Auth do
   defp check_password(nil, _), do: {:error, "Incorrect email or password"}
 
   defp check_password(user, plain_text_password) do
-    case Bcrypt.checkpw(plain_text_password,user.password) do
+    case Bcrypt.checkpw(plain_text_password, user.password) do
       true -> {:ok, user}
       false -> {:error, "Incorrect email or password"}
     end
@@ -31,5 +31,4 @@ defmodule AppWeb.Auth do
   end
 
   def get_user!(id), do: Repo.get!(User, id)
-
 end
