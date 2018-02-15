@@ -1,12 +1,12 @@
 module MainAdmin exposing (..)
 
 import Html exposing (Html)
-import Model exposing (Model, Msg(..), Page(..), EditableData(..))
-import Update exposing (update)
-import View exposing (view)
-import Requests exposing (fetchRecordingsCmd)
+import AppAdmin.Model exposing (Model, Msg(..), Page(..), EditableData(..))
+import AppAdmin.Update exposing (update)
+import AppAdmin.View exposing (view)
+import AppAdmin.Requests exposing (fetchRecordingsCmd)
 import RemoteData exposing (RemoteData(..))
-import Ports
+import AppAdmin.Ports as Ports
 
 
 main : Program Never Model Msg

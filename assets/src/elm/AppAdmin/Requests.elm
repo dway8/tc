@@ -1,12 +1,12 @@
-module Requests exposing (..)
+module AppAdmin.Requests exposing (..)
 
 import GraphQL.Request.Builder exposing (..)
 import GraphQL.Client.Http as GraphQLClient
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 import Task exposing (Task)
-import Model exposing (Msg(..), Recording, EditableData(..), RecordingId, Theme(..), themeToString, RecordingForm)
-import Utils exposing (Coordinates)
+import AppAdmin.Model exposing (Msg(..), EditableData(..), RecordingForm)
+import Recording exposing (Recording, RecordingId, Theme(..), themeToString, fetchRecordingsQuery, recordingSpec)
 import RemoteData
 
 
@@ -18,24 +18,6 @@ sendQueryRequest request =
 sendMutationRequest : Request Mutation a -> Task GraphQLClient.Error a
 sendMutationRequest request =
     GraphQLClient.sendMutation "/api" request
-
-
-fetchRecordingsQuery : Request Query (List Recording)
-fetchRecordingsQuery =
-    extract
-        (field "recordings"
-            []
-            (list recordingSpec)
-        )
-        |> queryDocument
-        |> request
-            {}
-
-
-fetchRecordingsCmd : Cmd Msg
-fetchRecordingsCmd =
-    sendQueryRequest fetchRecordingsQuery
-        |> Task.attempt (RemoteData.fromResult >> ReceiveQueryResponse)
 
 
 deleteRecordingCmd : RecordingId -> Cmd Msg
@@ -122,34 +104,7 @@ recordingIdToInt str =
     Result.withDefault 0 (String.toInt str)
 
 
-recordingSpec : ValueSpec NonNull ObjectType Recording vars
-recordingSpec =
-    object Recording
-        |> with (field "id" [] string)
-        |> with (field "author" [] (nullable string))
-        |> with (field "description" [] (nullable string))
-        |> with
-            (field "theme"
-                []
-                (extract (field "name" [] themeSpec))
-            )
-        |> with
-            (field "coordinates"
-                []
-                (object Coordinates
-                    |> with (field "lat" [] float)
-                    |> with (field "lng" [] float)
-                )
-            )
-        |> with (field "searchAddress" [] (nullable string))
-        |> with (field "address" [] (nullable string))
-        |> with (field "city" [] (nullable string))
-
-
-themeSpec : ValueSpec NonNull EnumType Theme vars
-themeSpec =
-    enumWithDefault (always NoTheme)
-        [ ( "Nature", Nature )
-        , ( "Histoire", History )
-        , ( "Culture", Culture )
-        ]
+fetchRecordingsCmd : Cmd Msg
+fetchRecordingsCmd =
+    sendQueryRequest fetchRecordingsQuery
+        |> Task.attempt (RemoteData.fromResult >> ReceiveQueryResponse)

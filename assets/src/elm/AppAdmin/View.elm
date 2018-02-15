@@ -1,6 +1,7 @@
-module View exposing (..)
+module AppAdmin.View exposing (..)
 
-import Model exposing (Model, Msg(..), Recording, GraphQLData, Page(..), Field(..), Theme, themeToString, themesList, RecordingForm, EditableData(..), addressInputId)
+import AppAdmin.Model exposing (Model, Msg(..), GraphQLData, Page(..), Field(..), RecordingForm, EditableData(..), addressInputId)
+import Recording exposing (Recording, Theme, themeToString, themesList)
 import Html exposing (Html)
 import Element exposing (..)
 import Styles exposing (Styles(..), Variations(..), stylesheet, Elem)

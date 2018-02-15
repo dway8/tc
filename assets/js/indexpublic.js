@@ -1,14 +1,14 @@
 import "phoenix_html";
 import { Socket } from "phoenix";
 
-const Elm = require("../src/elm/Main");
+const Elm = require("../src/elm/MainPublic");
 var main = document.getElementById("main");
 if (!main) {
     console.log("could not find div");
 } else {
     console.log("yayy!");
 }
-var app = Elm.Main.embed(main);
+var app = Elm.MainPublic.embed(main);
 
 // app.ports.infoForOutside.subscribe(function(elmData) {
 //     var tag = elmData.tag;

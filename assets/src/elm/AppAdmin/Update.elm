@@ -1,10 +1,11 @@
-module Update exposing (..)
+module AppAdmin.Update exposing (..)
 
-import Model exposing (Model, Msg(..), Page(..), EditableData(..), Recording, Field(..), GraphQLData, RecordingId, newRecording, RecordingForm, Theme(..), addressInputId)
-import Requests exposing (saveRecordingCmd, deleteRecordingCmd)
+import AppAdmin.Model exposing (Model, Msg(..), Page(..), EditableData(..), Field(..), GraphQLData, RecordingForm, addressInputId)
+import AppAdmin.Requests exposing (saveRecordingCmd, deleteRecordingCmd)
 import RemoteData exposing (RemoteData(..))
 import Element.Input as Input
-import Ports exposing (InfoForOutside(..), InfoForElm(..), PlaceSelectedData)
+import AppAdmin.Ports as Ports exposing (InfoForOutside(..), InfoForElm(..), PlaceSelectedData)
+import Recording exposing (Recording, RecordingId, Theme(..), newRecording)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

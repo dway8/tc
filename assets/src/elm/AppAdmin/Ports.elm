@@ -1,4 +1,4 @@
-port module Ports exposing (..)
+port module AppAdmin.Ports exposing (..)
 
 import Json.Decode as D
 import Json.Encode as E

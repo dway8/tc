@@ -1,12 +1,11 @@
-module Main exposing (..)
+module MainPublic exposing (..)
 
 import Html exposing (Html)
-import Model exposing (Model, Msg(..), Page(..), EditableData(..))
-import Update exposing (update)
-import View exposing (view)
-import Requests exposing (fetchRecordingsCmd)
+import AppPublic.Model exposing (Model, Msg(..))
+import AppPublic.Update exposing (update)
+import AppPublic.View exposing (view)
+import AppPublic.Requests exposing (fetchRecordingsCmd)
 import RemoteData exposing (RemoteData(..))
-import Ports
 
 
 main : Program Never Model Msg
@@ -22,8 +21,6 @@ main =
 initialModel : Model
 initialModel =
     { recordings = NotAsked
-    , page = ListPage
-    , form = NotEditing
     }
 
 
@@ -34,4 +31,4 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch [ Ports.getInfoFromOutside InfoFromOutside LogError ]
+    Sub.batch []
