@@ -1,10 +1,11 @@
 module MainPublic exposing (..)
 
 import Html exposing (Html)
-import AppPublic.Model exposing (Model, Msg(..))
+import AppPublic.Model exposing (Model, Msg(..), initMap)
 import AppPublic.Update exposing (update)
 import AppPublic.View exposing (view)
 import AppPublic.Requests exposing (fetchRecordingsCmd)
+import AppPublic.Ports as Ports exposing (InfoForOutside(..))
 import RemoteData exposing (RemoteData(..))
 
 
@@ -21,12 +22,13 @@ main =
 initialModel : Model
 initialModel =
     { recordings = NotAsked
+    , map = initMap
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, fetchRecordingsCmd )
+    initialModel ! [ fetchRecordingsCmd, Ports.sendInfoOutside InitMap ]
 
 
 subscriptions : Model -> Sub Msg

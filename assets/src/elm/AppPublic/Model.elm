@@ -1,7 +1,5 @@
 module AppPublic.Model exposing (..)
 
-import RemoteData exposing (RemoteData)
-import Element.Input as Input
 import Utils exposing (Coordinates, GraphQLData)
 import Recording exposing (Recording)
 
@@ -13,4 +11,26 @@ type Msg
 
 type alias Model =
     { recordings : GraphQLData (List Recording)
+    , map : Map
+    }
+
+
+type alias Map =
+    { zoom : Int
+    , center : Coordinates
+    , bounds : Maybe Bounds
+    }
+
+
+type alias Bounds =
+    { nw : Coordinates
+    , se : Coordinates
+    }
+
+
+initMap : Map
+initMap =
+    { zoom = 3
+    , center = { lat = 0, lng = 0 }
+    , bounds = Nothing
     }
