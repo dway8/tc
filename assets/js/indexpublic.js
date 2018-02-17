@@ -10,7 +10,8 @@ if (!main) {
 }
 var app = Elm.MainPublic.embed(main);
 
-var gmap;
+var gmap,
+    markers = [];
 
 app.ports.infoForOutside.subscribe(function(elmData) {
     var tag = elmData.tag;
@@ -18,18 +19,54 @@ app.ports.infoForOutside.subscribe(function(elmData) {
         case "initMap":
             initMap();
             break;
+        case "displayMarkers":
+            console.log("in here", elmData);
+            if (typeof google === "undefined") {
+                console.log("no google");
+                return;
+            }
+            if (typeof gmap === "undefined") {
+                console.log("no gmap");
+                return;
+            }
+            var recordings = elmData.data;
+            if (!recordings) {
+                console.log("no rec");
+                return;
+            }
+            var markers = recordings.map(recToMarker);
+            showMarkers(markers);
+            break;
         default:
             console.log("Unrecognized type");
             break;
     }
 });
 
+function recToMarker(rec) {
+    var marker = new google.maps.Marker({
+        position: rec.coordinates,
+        recordingId: rec.id,
+    });
+    return marker;
+}
+
+function showMarkers(markers) {
+    try {
+        markers.forEach(function(marker) {
+            marker.setMap(gmap);
+            google.maps.event.clearListeners(marker, "click");
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 function initMap() {
     if (!google) {
         console.log("google not found");
         return;
     }
-    console.log("in initMap");
     var defaultIcon = function(icon) {
         icon.size = icon.size || new google.maps.Size(44, 80);
         icon.scaledSize = icon.scaledSize || new google.maps.Size(22, 40);
