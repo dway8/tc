@@ -1,10 +1,10 @@
 module Recording exposing (..)
 
-import Utils exposing (Coordinates)
-import Task exposing (Task)
-import RemoteData
-import GraphQL.Request.Builder exposing (..)
 import GraphQL.Client.Http as GraphQLClient
+import GraphQL.Request.Builder exposing (..)
+import RemoteData
+import Task exposing (Task)
+import Utils exposing (Coordinates)
 
 
 type alias Recording =
@@ -64,7 +64,14 @@ themesList =
     [ NoTheme, Nature, History, Culture ]
 
 
+getAuthor : Recording -> String
+getAuthor rec =
+    Maybe.withDefault "" rec.author
 
+
+getDescription : Recording -> String
+getDescription rec =
+    Maybe.withDefault "" rec.description
 
 
 fetchRecordingsQuery : Request Query (List Recording)

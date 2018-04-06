@@ -63,7 +63,7 @@ update msg model =
                 |> setForm (Editing <| RecordingForm newRecording (Input.dropMenu (Just NoTheme) SelectTheme))
                 |> setPage (EditPage newRecording)
             )
-                ! []
+                ! [ Ports.sendInfoOutside <| InitSearch addressInputId ]
 
         SelectTheme selectMsg ->
             (model

@@ -1,11 +1,11 @@
 module MainPublic exposing (..)
 
-import Html exposing (Html)
 import AppPublic.Model exposing (Model, Msg(..), initMap)
+import AppPublic.Ports as Ports exposing (InfoForOutside(..))
+import AppPublic.Requests exposing (fetchRecordingsCmd)
 import AppPublic.Update exposing (update)
 import AppPublic.View exposing (view)
-import AppPublic.Requests exposing (fetchRecordingsCmd)
-import AppPublic.Ports as Ports exposing (InfoForOutside(..))
+import Html exposing (Html)
 import RemoteData exposing (RemoteData(..))
 
 
@@ -23,6 +23,7 @@ initialModel : Model
 initialModel =
     { recordings = NotAsked
     , map = initMap
+    , shownRecording = Nothing
     }
 
 
@@ -33,4 +34,4 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch []
+    Sub.batch [ Ports.getInfoFromOutside InfoFromOutside LogError ]

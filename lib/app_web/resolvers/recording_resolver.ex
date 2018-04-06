@@ -29,7 +29,7 @@ defmodule AppWeb.RecordingResolver do
     params =
       post_params
       |> Map.put(:theme_id, theme.id)
-      |> Map.update!(:coordinates, fn c -> %Geo.Point{coordinates: {c.lat, c.lng}, srid: 4326} end)
+      |> Map.update!(:coordinates, fn c -> %Geo.Point{coordinates: {c.lng, c.lat}, srid: 4326} end)
 
     Repo.get!(Recording, id)
     |> Recording.changeset(params)

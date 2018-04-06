@@ -27,7 +27,7 @@ defmodule AppWeb.Schema do
     field(:coordinates, non_null(:input_coordinates))
   end
 
-  object :input_coordinates do
+  input_object :input_coordinates do
     field(:lat, :float)
     field(:lng, :float)
   end
@@ -37,6 +37,10 @@ defmodule AppWeb.Schema do
       arg(:author, non_null(:string))
       arg(:description, non_null(:string))
       arg(:theme, non_null(:string))
+      arg(:search_address, non_null(:string))
+      arg(:address, non_null(:string))
+      arg(:city, non_null(:string))
+      arg(:coordinates, non_null(:input_coordinates))
 
       resolve(&AppWeb.RecordingResolver.create/2)
     end

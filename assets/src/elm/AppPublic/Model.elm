@@ -1,17 +1,22 @@
 module AppPublic.Model exposing (..)
 
-import Utils exposing (Coordinates, GraphQLData)
+import AppPublic.Ports exposing (InfoForElm)
 import Recording exposing (Recording)
+import Utils exposing (Coordinates, GraphQLData)
 
 
 type Msg
     = NoOp
     | ReceiveQueryResponse (GraphQLData (List Recording))
+    | InfoFromOutside InfoForElm
+    | LogError String
+    | CloseRecordingDialog
 
 
 type alias Model =
     { recordings : GraphQLData (List Recording)
     , map : Map
+    , shownRecording : Maybe Recording
     }
 
 

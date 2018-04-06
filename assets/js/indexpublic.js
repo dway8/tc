@@ -20,18 +20,14 @@ app.ports.infoForOutside.subscribe(function(elmData) {
             initMap();
             break;
         case "displayMarkers":
-            console.log("in here", elmData);
             if (typeof google === "undefined") {
-                console.log("no google");
                 return;
             }
             if (typeof gmap === "undefined") {
-                console.log("no gmap");
                 return;
             }
             var recordings = elmData.data;
             if (!recordings) {
-                console.log("no rec");
                 return;
             }
             var markers = recordings.map(recToMarker);
@@ -56,6 +52,15 @@ function showMarkers(markers) {
         markers.forEach(function(marker) {
             marker.setMap(gmap);
             google.maps.event.clearListeners(marker, "click");
+        });
+
+        markers.forEach(function(marker) {
+            // oms.addMarker(marker);
+            google.maps.event.addListener(
+                marker,
+                "click",
+                showPopup(marker.recordingId, marker)
+            );
         });
     } catch (err) {
         console.log(err);
@@ -97,4 +102,19 @@ function initMap() {
     } else {
         console.log("Cannot find map dom: ", "#" + gmapsId);
     }
+}
+
+function showPopup(recordingId, marker) {
+    return function() {
+        // var selected = marker.getIcon().url === blueIcon.url;
+        // markers.forEach(function(marker) {
+        //     marker.setIcon(redIcon);
+        // });
+
+        // if (!selected) {
+        //     marker.setIcon(blueIcon);
+        // }
+        var res = { tag: "markerClicked", data: recordingId };
+        app.ports.infoForElm.send(res);
+    };
 }

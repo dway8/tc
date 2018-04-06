@@ -1,11 +1,10 @@
 module AppAdmin.Model exposing (..)
 
-import RemoteData exposing (RemoteData)
-import GraphQL.Client.Http as GraphQLClient
-import Element.Input as Input
 import AppAdmin.Ports exposing (InfoForElm)
-import Utils exposing (Coordinates)
+import Element.Input as Input
+import GraphQL.Client.Http as GraphQLClient
 import Recording exposing (Recording, RecordingId, Theme)
+import RemoteData exposing (RemoteData)
 
 
 type Msg

@@ -1,6 +1,7 @@
 defmodule AppWeb.Recording do
   use AppWeb, :model
   alias AppWeb.Theme
+  alias AppWeb.Trip
 
   schema "recordings" do
     field(:author, :string)
@@ -10,6 +11,7 @@ defmodule AppWeb.Recording do
     field(:search_address, :string)
     field(:address, :string)
     field(:city, :string)
+    belongs_to(:trip, Trip)
 
     timestamps()
   end

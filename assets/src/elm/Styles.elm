@@ -1,12 +1,13 @@
 module Styles exposing (..)
 
+import Color as Color
+import Element exposing (Element)
 import Style exposing (..)
+import Style.Border as Border
+import Style.Color as SC
 import Style.Font as Font
 import Style.Scale as Scale
-import Style.Border as Border
-import Element exposing (Element)
-import Style.Color as SC
-import Color as Color
+import Style.Shadow as Shadow
 
 
 type Styles
@@ -15,6 +16,7 @@ type Styles
     | Hairline
     | Button
     | Input
+    | Modal
 
 
 type Variations
@@ -58,6 +60,17 @@ stylesheet =
             , Border.all 1
             , Border.solid
             , SC.border Color.grey
+            ]
+        , style Modal
+            [ Font.typeface [ Font.font "Roboto" ]
+            , Font.weight 400
+            , SC.background Color.white
+            , Shadow.box
+                { offset = ( 0, 14 )
+                , size = -12
+                , blur = 20
+                , color = Color.rgba 0 0 0 0.2
+                }
             ]
         ]
 
